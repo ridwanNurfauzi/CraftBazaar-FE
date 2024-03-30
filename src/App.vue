@@ -1,0 +1,53 @@
+<template>
+  <div class="min-h-screen w-full flex flex-col">
+    <div v-if="getRole == 'admin'">
+      <RouterView></RouterView>
+    </div>
+    <div v-if="getRole == 'user'">
+      <div v-if="!!!$route.meta.hideNavbar" class="sticky top-0 z-[99999990]">
+        <div>
+          <UserNavbar></UserNavbar>
+        </div>
+      </div>
+
+      <div class="flex-1 flex flex-col">
+        <RouterView />
+      </div>
+
+      <div v-if="!!!$route.meta.hideFooter" class="flex flex-col">
+        <FooterComponent></FooterComponent>
+      </div>
+    </div>
+
+    <div v-if="$route.meta.role">
+      {{ $route.meta }}
+      {{ $route.name }}
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { RouterView } from 'vue-router'
+import UserNavbar from "@/components/user/Navbar.vue";
+import FooterComponent from "@/components/user/FooterComponent.vue";
+
+export default {
+  components: {
+    RouterView,
+    UserNavbar,
+    FooterComponent
+  },
+  computed: {
+    getRole() {
+      const role = this.$route.meta.role;
+      if (!!role) {
+        return role;
+      } else {
+        return '';
+      }
+    }
+  },
+}
+</script>
+
+<style scoped></style>
