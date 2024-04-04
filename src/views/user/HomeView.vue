@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="w-full overflow-x-auto flex flex-row">
-                        <div class="mx-auto flex flex-row py-2">
+                        <!-- <div class="mx-auto flex flex-row py-2">
                             <div class="mx-3">
                                 <ProductCard></ProductCard>
                             </div>
@@ -85,6 +85,11 @@
                             </div>
                             <div class="mx-3">
                                 <ProductCard></ProductCard>
+                            </div>
+                        </div> -->
+                        <div class="w-full overflow-x-auto flex flex-row">
+                            <div class="mx-auto">
+                                <h1 class="font-semibold text-slate-700 text-xl">Anda Belum memiliki langganan</h1>
                             </div>
                         </div>
                     </div>
@@ -99,37 +104,13 @@
                         </div>
                     </div>
                     <div class="w-full overflow-x-auto flex flex-row">
-                        <div class="mx-auto flex flex-row py-2">
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
+                        <div class="mx-auto flex flex-row py-2" v-if="!!latestProducts?.data">
+                            <RouterLink v-for="product in latestProducts?.data ?? []"
+                                :to="{ name: 'user.productBySlug', params: { slug: product.slug } }">
+                                <div class="mx-3">
+                                    <ProductCard :product="product"></ProductCard>
+                                </div>
+                            </RouterLink>
                         </div>
                     </div>
                 </div>
@@ -143,37 +124,13 @@
                         </div>
                     </div>
                     <div class="w-full overflow-x-auto flex flex-row">
-                        <div class="mx-auto flex flex-row p-2">
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
+                        <div class="mx-auto flex flex-row p-2" v-if="!!popularProducts?.data">
+                            <RouterLink v-for="product in popularProducts?.data ?? []"
+                                :to="{ name: 'user.productBySlug', params: { slug: product.slug } }">
+                                <div class="mx-3">
+                                    <ProductCard :product="product"></ProductCard>
+                                </div>
+                            </RouterLink>
                         </div>
                     </div>
                 </div>
@@ -188,15 +145,12 @@
                     </div>
                     <div class="w-full overflow-x-auto flex flex-row">
                         <div class="mx-auto flex flex-row my-2">
-                            <div class="mx-3">
-                                <CategoryCard></CategoryCard>
-                            </div>
-                            <div class="mx-3">
-                                <CategoryCard></CategoryCard>
-                            </div>
-                            <div class="mx-3">
-                                <CategoryCard></CategoryCard>
-                            </div>
+                            <RouterLink v-for="category in categories?.data ?? []"
+                                :to="{ name: 'user.categoryByName', params: { name: category.name } }">
+                                <div class="mx-3">
+                                    <CategoryCard :category="category"></CategoryCard>
+                                </div>
+                            </RouterLink>
                         </div>
                     </div>
                 </div>
@@ -213,6 +167,8 @@ import { useConfigStore } from "@/stores/_config";
 import ProductCard from "@/components/user/ProductCard.vue";
 import CategoryCard from "@/components/user/CategoryCard.vue";
 import { useUserAuthStore } from "@/stores/userAuth";
+import { useUserProductStore } from "@/stores/userProduct";
+import { useUserCategoryStore } from "@/stores/userCategory";
 
 export default {
     components: {
@@ -221,18 +177,26 @@ export default {
         RouterLink
     },
     methods: {
+        ...mapActions(useUserProductStore, ['fetchProducts', 'fetchLatestProducts', 'fetchEarliestProducts', 'fetchPopularProducts']),
+        ...mapActions(useUserCategoryStore, ['fetchCategories']),
         ...mapActions(useUserAuthStore, ['getProfile'])
-
     },
     computed: {
+        ...mapState(useUserProductStore, ['products', 'latestProducts', 'earliestProducts', 'popularProducts']),
+        ...mapState(useUserCategoryStore, ['categories']),
         ...mapState(useUserAuthStore, ['userData', 'loggedIn']),
 
-        ...mapState(useConfigStore, ['API_URL'])
+        ...mapState(useConfigStore, ['API_URL']),
     },
-    mounted() {
+    async mounted() {
         initFlowbite();
         initDropdowns();
-        this.getProfile();
+        await this.getProfile();
+        await this.fetchProducts();
+        await this.fetchLatestProducts();
+        await this.fetchEarliestProducts();
+        await this.fetchPopularProducts();
+        await this.fetchCategories();
     }
 }
 </script>

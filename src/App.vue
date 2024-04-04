@@ -1,9 +1,10 @@
 <template>
   <div class="min-h-screen w-full flex flex-col">
-    <div v-if="getRole == 'admin'">
+    <div class="flex-1 flex flex-col" v-if="getRole == 'admin'">
       <RouterView></RouterView>
     </div>
-    <div v-if="getRole == 'user'">
+    
+    <div class="flex-1 flex flex-col" v-if="getRole == 'user'">
       <div v-if="!!!$route.meta.hideNavbar" class="sticky top-0 z-[99999990]">
         <div>
           <UserNavbar></UserNavbar>

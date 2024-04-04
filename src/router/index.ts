@@ -46,6 +46,22 @@ const userRoutes: RouteRecordRaw = {
       component: () => import('@/views/user/HomeView.vue')
     },
     {
+      path: 'products',
+      name: 'user.products',
+      component: () => import('@/views/user/ProductsView.vue'),
+      // beforeEnter: middleware.checkUserAuth
+    },
+    {
+      path: 'products/:slug',
+      name: 'user.productBySlug',
+      component: () => import('@/views/user/HomeView.vue')
+    },
+    {
+      path: 'categories/:name',
+      name: 'user.categoryByName',
+      component: () => import('@/views/user/HomeView.vue')
+    },
+    {
       path: 'test',
       name: 'user.test',
       component: () => import('@/components/user/ProductCard.vue'),
@@ -53,12 +69,6 @@ const userRoutes: RouteRecordRaw = {
         hideNavbar: true,
         hideFooter: true
       }
-    },
-    {
-      path: 'products',
-      name: 'user.products',
-      component: () => import('@/views/user/ProductsView.vue'),
-      beforeEnter: middleware.checkUserAuth
     },
     {
       path: 'categories',

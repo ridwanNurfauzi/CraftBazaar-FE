@@ -4,7 +4,7 @@
         <div class="flex-1 flex overflow-hidden">
             <div class="m-auto group-hover:opacity-75 group-hover:scale-110 transition-all mx-3">
                 <h1 class="text-slate-800 font-bold text-center text-lg text-wrap break-words">
-                    Katego dksari7
+                    {{ category?.name ?? '' }}
                 </h1>
             </div>
         </div>
@@ -12,9 +12,7 @@
 </template>
 
 <script lang="ts">
-import { mapState } from "pinia";
-import { useConfigStore } from "@/stores/_config";
-
 export default {
+    props: ['category']
 }
 </script>
