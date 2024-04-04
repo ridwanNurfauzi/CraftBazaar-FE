@@ -59,33 +59,6 @@
                             <div class="mx-3">
                                 <ProductCard></ProductCard>
                             </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
-                            </div>
                         </div> -->
                         <div class="w-full overflow-x-auto flex flex-row">
                             <div class="mx-auto">

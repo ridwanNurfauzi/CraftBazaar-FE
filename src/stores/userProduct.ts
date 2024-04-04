@@ -57,10 +57,12 @@ export const useUserProductStore = defineStore('user_product', {
 
                 if (res.data.success) {
                     this.$state.latestProducts = res.data;
+                    this.$state.products = res.data;
                     return true;
                 }
                 else {
                     this.$state.latestProducts = [];
+                    this.$state.products = [];
                     return false;
                 }
             } catch (error) {
@@ -76,10 +78,12 @@ export const useUserProductStore = defineStore('user_product', {
 
                 if (res.data.success) {
                     this.$state.earliestProducts = res.data;
+                    this.$state.products = res.data;
                     return true;
                 }
                 else {
                     this.$state.earliestProducts = [];
+                    this.$state.products = [];
                     return false;
                 }
             } catch (error) {
@@ -95,10 +99,12 @@ export const useUserProductStore = defineStore('user_product', {
 
                 if (res.data.success) {
                     this.$state.popularProducts = res.data;
+                    this.$state.products = res.data;
                     return true;
                 }
                 else {
                     this.$state.popularProducts = [];
+                    this.$state.products = [];
                     return false;
                 }
             } catch (error) {
