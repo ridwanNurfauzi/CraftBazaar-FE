@@ -119,7 +119,7 @@
                     <div class="w-full overflow-x-auto flex flex-row">
                         <div class="mx-auto flex flex-row my-2">
                             <RouterLink v-for="category in categories?.data ?? []"
-                                :to="{ name: 'user.categoryByName', params: { name: category.name } }">
+                                :to="{ name: 'user.productByCategory', params: { name: category.name } }">
                                 <div class="mx-3">
                                     <CategoryCard :category="category"></CategoryCard>
                                 </div>

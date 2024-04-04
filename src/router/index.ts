@@ -58,8 +58,8 @@ const userRoutes: RouteRecordRaw = {
     },
     {
       path: 'categories/:name',
-      name: 'user.categoryByName',
-      component: () => import('@/views/user/HomeView.vue')
+      name: 'user.productByCategory',
+      component: () => import('@/views/user/ProductByCategory.vue')
     },
     {
       path: 'test',
