@@ -3,8 +3,8 @@
     <div class="flex-1 flex flex-col" v-if="getRole == 'admin'">
       <RouterView></RouterView>
     </div>
-    
-    <div class="flex-1 flex flex-col" v-if="getRole == 'user'">
+
+    <div class="flex-1 flex flex-col" v-else-if="getRole == 'user'">
       <div v-if="!!!$route.meta.hideNavbar" class="sticky top-0 z-[99999990]">
         <div>
           <UserNavbar></UserNavbar>
@@ -15,6 +15,15 @@
         <RouterView />
       </div>
 
+      <div v-if="!!!$route.meta.hideFooter" class="flex flex-col">
+        <FooterComponent></FooterComponent>
+      </div>
+    </div>
+    
+    <div class="flex-1 flex flex-col" v-else>
+      <div class="flex-1 flex flex-col">
+        <RouterView />
+      </div>
       <div v-if="!!!$route.meta.hideFooter" class="flex flex-col">
         <FooterComponent></FooterComponent>
       </div>
