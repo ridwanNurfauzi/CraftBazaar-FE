@@ -54,7 +54,7 @@ const userRoutes: RouteRecordRaw = {
     {
       path: 'products/:slug',
       name: 'user.productBySlug',
-      component: () => import('@/views/user/HomeView.vue')
+      component: () => import('@/views/user/ProductBySlug.vue')
     },
     {
       path: 'categories/:name',
