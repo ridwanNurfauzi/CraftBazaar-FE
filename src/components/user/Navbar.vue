@@ -27,9 +27,9 @@
                             </li>
                             <hr>
                             <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">
+                                <RouterLink :to="{ name: 'user.profile' }" class="block px-4 py-2 hover:bg-gray-100">
                                     Profil
-                                </a>
+                                </RouterLink>
                             </li>
                             <hr>
                             <li>

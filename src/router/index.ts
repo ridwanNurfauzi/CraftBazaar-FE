@@ -46,10 +46,21 @@ const userRoutes: RouteRecordRaw = {
       component: () => import('@/views/user/HomeView.vue')
     },
     {
+      path: 'profile',
+      name: 'user.profile',
+      component: () => import('@/views/user/ProfileView.vue'),
+      beforeEnter: middleware.checkUserAuth
+    },
+    {
+      path: 'profile/edit',
+      name: 'user.profileEdit',
+      component: () => import('@/views/user/ProfileEditView.vue'),
+      beforeEnter: middleware.checkUserAuth
+    },
+    {
       path: 'products',
       name: 'user.products',
       component: () => import('@/views/user/ProductsView.vue'),
-      // beforeEnter: middleware.checkUserAuth
     },
     {
       path: 'products/:slug',
