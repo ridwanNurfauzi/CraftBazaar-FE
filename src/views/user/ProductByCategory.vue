@@ -7,7 +7,12 @@
                 </h1>
             </div>
             <div v-if="products?.data" class="flex flex-wrap justify-center m-4">
-                {{ products?.data }}
+                <RouterLink v-for="data in products?.data?.product_categories ?? []"
+                    :to="{ name: 'user.productBySlug', params: { slug: data.product?.slug ?? '' } }">
+                    <div class="m-3">
+                        <ProductCard :product="data.product"></ProductCard>
+                    </div>
+                </RouterLink>
             </div>
         </div>
     </div>
@@ -17,10 +22,12 @@
 import { mapState, mapActions } from "pinia";
 import { RouterLink } from "vue-router";
 import { useUserCategoryStore } from "@/stores/userCategory";
+import ProductCard from "@/components/user/ProductCard.vue";
 
 export default {
     components: {
-        RouterLink
+        RouterLink,
+        ProductCard
     },
     methods: {
         ...mapActions(useUserCategoryStore, ['fetchProductsByCategories']),
