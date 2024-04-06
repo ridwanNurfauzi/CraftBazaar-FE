@@ -8,7 +8,7 @@
         </div>
         <div class="px-2">
             <h1 class="font-medium text-ellipsis text-nowrap text-gray-800 overflow-hidden">
-                product {{ product?.name ?? '' }}
+                {{ product?.name ?? '' }}
             </h1>
         </div>
         <div class="px-2">
