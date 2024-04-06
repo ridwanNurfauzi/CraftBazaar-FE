@@ -85,6 +85,31 @@ export const useUserAuthStore = defineStore('user_auth', {
                 return false;
             }
         },
+        async updateProfile(fData: any, id: any) {
+            try {
+                if (!window.$cookies.isKey('userToken')) {
+                    this.$state.loggedIn = false;
+                    return false;
+                }
+                const res = await axios.put(
+                    `${this._config.API_URL}/user/profile/${id}`,
+                    fData,
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${window.$cookies.get('userToken')}`
+                        }
+                    }
+                );
+
+                if (res.data.success) {
+                    return res.data;
+                } else {
+                    return res.data;
+                }
+            } catch (error) {
+                return false;
+            }
+        },
         logout() {
             try {
                 this.$state.loggedIn = false;
