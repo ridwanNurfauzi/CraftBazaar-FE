@@ -30,6 +30,25 @@ export const useUserProductStore = defineStore('user_product', {
         _config: () => useConfigStore()
     },
     actions: {
+        async fetchProductBySlug(slug: any) {
+            try {
+                const res = await axios.get(
+                    `${this._config.API_URL}/user/products/slug/${slug}`
+                );
+
+                if (res.data.success) {
+                    this.$state.product = res.data;
+                    return true;
+                }
+                else {
+                    this.$state.product = null;
+                    return false;
+                }
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
+        },
         async fetchProducts() {
             try {
                 const res = await axios.get(
