@@ -55,12 +55,16 @@
                         </div>
                     </div>
                     <div class="w-full overflow-x-auto flex flex-row">
-                        <!-- <div class="mx-auto flex flex-row py-2">
-                            <div class="mx-3">
-                                <ProductCard></ProductCard>
+                        <div v-if="loggedIn && productsFromSubscriptions">
+                            <div class="mx-auto flex flex-row py-2" v-if="productsFromSubscriptions.data?.length > 0">
+                                <div class="mx-3" v-for="product in productsFromSubscriptions.data">
+                                    <RouterLink :to="{ name: 'user.productBySlug', params: { slug: product.slug } }">
+                                        <ProductCard :product="product"></ProductCard>
+                                    </RouterLink>
+                                </div>
                             </div>
-                        </div> -->
-                        <div class="w-full overflow-x-auto flex flex-row">
+                        </div>
+                        <div class="w-full overflow-x-auto flex flex-row" v-else>
                             <div class="mx-auto">
                                 <h1 class="font-semibold text-slate-700 text-xl">Anda Belum memiliki langganan</h1>
                             </div>
@@ -78,12 +82,11 @@
                     </div>
                     <div class="w-full overflow-x-auto flex flex-row">
                         <div class="mx-auto flex flex-row py-2" v-if="!!latestProducts?.data">
-                            <RouterLink v-for="product in latestProducts?.data ?? []"
-                                :to="{ name: 'user.productBySlug', params: { slug: product.slug } }">
-                                <div class="mx-3">
+                            <div class="mx-3" v-for="product in latestProducts?.data ?? []">
+                                <RouterLink :to="{ name: 'user.productBySlug', params: { slug: product.slug } }">
                                     <ProductCard :product="product"></ProductCard>
-                                </div>
-                            </RouterLink>
+                                </RouterLink>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -98,12 +101,11 @@
                     </div>
                     <div class="w-full overflow-x-auto flex flex-row">
                         <div class="mx-auto flex flex-row p-2" v-if="!!popularProducts?.data">
-                            <RouterLink v-for="product in popularProducts?.data ?? []"
-                                :to="{ name: 'user.productBySlug', params: { slug: product.slug } }">
-                                <div class="mx-3">
+                            <div class="mx-3" v-for="product in popularProducts?.data ?? []">
+                                <RouterLink :to="{ name: 'user.productBySlug', params: { slug: product.slug } }">
                                     <ProductCard :product="product"></ProductCard>
-                                </div>
-                            </RouterLink>
+                                </RouterLink>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -118,12 +120,11 @@
                     </div>
                     <div class="w-full overflow-x-auto flex flex-row">
                         <div class="mx-auto flex flex-row my-2">
-                            <RouterLink v-for="category in categories?.data ?? []"
-                                :to="{ name: 'user.productByCategory', params: { name: category.name } }">
-                                <div class="mx-3">
+                            <div class="mx-3" v-for="category in categories?.data ?? []">
+                                <RouterLink :to="{ name: 'user.productByCategory', params: { name: category.name } }">
                                     <CategoryCard :category="category"></CategoryCard>
-                                </div>
-                            </RouterLink>
+                                </RouterLink>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -150,12 +151,12 @@ export default {
         RouterLink
     },
     methods: {
-        ...mapActions(useUserProductStore, ['fetchProducts', 'fetchLatestProducts', 'fetchEarliestProducts', 'fetchPopularProducts']),
+        ...mapActions(useUserProductStore, ['fetchProducts', 'fetchLatestProducts', 'fetchEarliestProducts', 'fetchPopularProducts', 'fetchProductsFromSubscriptions']),
         ...mapActions(useUserCategoryStore, ['fetchCategories']),
         ...mapActions(useUserAuthStore, ['getProfile'])
     },
     computed: {
-        ...mapState(useUserProductStore, ['products', 'latestProducts', 'earliestProducts', 'popularProducts']),
+        ...mapState(useUserProductStore, ['products', 'latestProducts', 'earliestProducts', 'popularProducts', 'productsFromSubscriptions']),
         ...mapState(useUserCategoryStore, ['categories']),
         ...mapState(useUserAuthStore, ['userData', 'loggedIn']),
 
@@ -164,12 +165,15 @@ export default {
     async mounted() {
         initFlowbite();
         initDropdowns();
+
         await this.getProfile();
         await this.fetchProducts();
         await this.fetchLatestProducts();
         await this.fetchEarliestProducts();
         await this.fetchPopularProducts();
         await this.fetchCategories();
+        if (!!this.$cookies.get('userToken'))
+            await this.fetchProductsFromSubscriptions();
     }
 }
 </script>
