@@ -5,12 +5,11 @@
                 <h1 class="text-center text-lg font-medium">Kategori</h1>
             </div>
             <div class="flex flex-wrap justify-center m-4">
-                <RouterLink v-for="category in categories?.data ?? []"
-                    :to="{ name: 'user.productByCategory', params: { name: category.name } }">
-                    <div class="m-3">
+                <div class="m-3" v-for="category in categories?.data ?? []">
+                    <RouterLink :to="{ name: 'user.productByCategory', params: { name: category.name } }">
                         <CategoryCard :category="category"></CategoryCard>
-                    </div>
-                </RouterLink>
+                    </RouterLink>
+                </div>
             </div>
         </div>
     </div>
