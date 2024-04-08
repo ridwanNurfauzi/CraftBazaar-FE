@@ -58,6 +58,11 @@ const userRoutes: RouteRecordRaw = {
       beforeEnter: middleware.checkUserAuth
     },
     {
+      path: 'sellers/:code',
+      name: 'user.sellerByCode',
+      component: () => import('@/views/user/SellerByCodeView.vue')
+    },
+    {
       path: 'products',
       name: 'user.products',
       component: () => import('@/views/user/ProductsView.vue'),

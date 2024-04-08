@@ -19,7 +19,11 @@
                     <h1 class="font-medium text-lg my-3">
                         {{ product.data?.name ?? '' }}
                     </h1>
-                    <h1 class="text-slate-700 mb-4">{{ product.data?.seller?.name ?? '' }}</h1>
+                    <RouterLink :to="{ name: 'user.sellerByCode', params: { code: product.data?.seller?.code ?? '' } }">
+                        <h1 class="text-slate-700 mb-4 hover:underline">
+                            {{ product.data?.seller?.name ?? '' }}
+                        </h1>
+                    </RouterLink>
                     <div class="my-3 flex" v-if="product.data?.categories.length > 0">
                         <div class="me-4">
                             <span class="text-sm">Kategori</span>
@@ -297,7 +301,7 @@
     <div class="flex-1 flex flex-col" v-else>
         <div class="w-full xl:max-w-7xl xl:mx-auto flex-1 flex">
             <div class="m-auto font-medium text-xl">
-                produk tidak ditemukan
+                Produk tidak ditemukan
             </div>
         </div>
     </div>
