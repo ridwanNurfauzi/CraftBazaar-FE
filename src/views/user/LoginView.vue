@@ -72,10 +72,10 @@ export default {
 
             let validation = this.validation;
 
-                Object.keys(this.validation).forEach(e => {
-                    this.validation[e as keyof typeof validation] = '';
-                });
-            
+            Object.keys(this.validation).forEach(e => {
+                this.validation[e as keyof typeof validation] = '';
+            });
+
             if ((!data?.success) && data?.vError) {
                 let vResult = data?.vResult?.errors;
 
