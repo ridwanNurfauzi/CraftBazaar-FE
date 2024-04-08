@@ -39,13 +39,14 @@
                             {{ product.data?.description ?? '' }}
                         </p>
                     </div>
+
                     <div class="my-4" v-if="product?.data?.reviews">
                         <div class="flex">
                             <span class="text-yellow-400 hover:text-yellow-300 transition-all"
                                 v-html="rateToStar(averageRating ?? 0)"></span>
                             <div class="text-slate-700 mx-3">
                                 <span>
-                                    {{ averageRating }}
+                                    {{ averageRating.toFixed(2) }}
                                 </span>
                                 <span>
                                     /
@@ -55,31 +56,93 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="mt-3 flex flex-col w-full">
-                            <div class="px-3 py-1 rounded-xl border hover:shadow-lg flex flex-col my-4"
-                                v-for="review in product.data.reviews">
-                                <div class="w-full flex justify-start">
-                                    <div class="min-w-[3.5rem]">
-                                        <span>
-                                            <img v-if="!!review.user.photo"
-                                                :src="`${API_URL}/public/images/profiles/user/${review.user.photo}`"
-                                                class="opacity-85 object-cover w-8 h-8 bg-gray-300 hover:bg-gray-400 rounded-full"
-                                                alt="profile">
-                                            <img v-else src="/images/person.png"
-                                                class="opacity-85 object-cover w-8 h-8 bg-gray-300 hover:bg-gray-400 rounded-full"
-                                                alt="profile">
-                                        </span>
-                                    </div>
+
+                        <div v-if="product.data.personal_reviews">
+                            <div class="pt-2" v-if="product.data.personal_reviews.length < 1">
+                                <div class="mx-2">
                                     <div>
-                                        <div class="overflow-auto">
-                                            <h1
-                                                class="font-medium text-nowrap text-ellipsis text-gray-800 overflow-hidden">
-                                                {{ review.user.firstname }}
-                                                {{ review.user.lastname }}
-                                            </h1>
+                                        <h1 class="text-center font-medium text-lg">Tambah ulasan</h1>
+                                    </div>
+                                    <div class="my-2 flex justify-center">
+                                        <button @click="rating = 1"
+                                            class="group text-2xl text-yellow-300 mx-0.5 hover:text-yellow-200">
+                                            <i class="group-hover:hidden bi bi-star-fill" v-if="rating >= 1"></i>
+                                            <i class="group-hover:hidden bi bi-star" v-else></i>
+                                            <i class="hidden group-hover:block bi bi-star-fill"></i>
+                                        </button>
+                                        <button @click="rating = 2"
+                                            class="group text-2xl text-yellow-300 mx-0.5 hover:text-yellow-200">
+                                            <i class="group-hover:hidden bi bi-star-fill" v-if="rating >= 2"></i>
+                                            <i class="group-hover:hidden bi bi-star" v-else></i>
+                                            <i class="hidden group-hover:block bi bi-star-fill"></i>
+                                        </button>
+                                        <button @click="rating = 3"
+                                            class="group text-2xl text-yellow-300 mx-0.5 hover:text-yellow-200">
+                                            <i class="group-hover:hidden bi bi-star-fill" v-if="rating >= 3"></i>
+                                            <i class="group-hover:hidden bi bi-star" v-else></i>
+                                            <i class="hidden group-hover:block bi bi-star-fill"></i>
+                                        </button>
+                                        <button @click="rating = 4"
+                                            class="group text-2xl text-yellow-300 mx-0.5 hover:text-yellow-200">
+                                            <i class="group-hover:hidden bi bi-star-fill" v-if="rating >= 4"></i>
+                                            <i class="group-hover:hidden bi bi-star" v-else></i>
+                                            <i class="hidden group-hover:block bi bi-star-fill"></i>
+                                        </button>
+                                        <button @click="rating = 5"
+                                            class="group text-2xl text-yellow-300 mx-0.5 hover:text-yellow-200">
+                                            <i class="group-hover:hidden bi bi-star-fill" v-if="rating >= 5"></i>
+                                            <i class="group-hover:hidden bi bi-star" v-else></i>
+                                            <i class="hidden group-hover:block bi bi-star-fill"></i>
+                                        </button>
+                                    </div>
+                                    <div class="my-2">
+                                        <textarea name="review_text" id="review_text" rows="3"
+                                            placeholder="Tambah teks (opsional)" v-model="review_text"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"></textarea>
+                                    </div>
+                                    <div class="flex justify-end">
+                                        <button @click="performAddReview(product.data?.id)"
+                                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+                                            Tambah
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mx-4">
+                            <div class="mt-3 flex flex-col w-full" v-if="product.data.personal_reviews">
+                                <div class="px-3 py-1 rounded-xl border hover:shadow-lg flex flex-col my-4"
+                                    v-for="review in product.data.personal_reviews">
+                                    <div class="w-full flex justify-start">
+                                        <div class="min-w-[3.5rem]">
+                                            <span>
+                                                <img v-if="!!review.user.photo"
+                                                    :src="`${API_URL}/public/images/profiles/user/${review.user.photo}`"
+                                                    class="opacity-85 object-cover w-8 h-8 bg-gray-300 hover:bg-gray-400 rounded-full"
+                                                    alt="profile">
+                                                <img v-else src="/images/person.png"
+                                                    class="opacity-85 object-cover w-8 h-8 bg-gray-300 hover:bg-gray-400 rounded-full"
+                                                    alt="profile">
+                                            </span>
                                         </div>
-                                        <div class="text-sm text-slate-700">
-                                            {{
+                                        <div class="w-full">
+                                            <div class="flex w-full">
+                                                <div class="overflow-auto">
+                                                    <h1 class="font-medium text-gray-800 overflow-hidden">
+                                                        {{ review.user.firstname }}
+                                                        {{ review.user.lastname }}
+                                                    </h1>
+                                                </div>
+                                                <div class="ms-auto">
+                                                    <button @click="performRemovePersonalReview(review.id)"
+                                                        class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-2.5 py-1 text-center m-1">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="text-sm text-slate-700">
+                                                {{
         !!review.createdAt ?
             (
                 new Date(review.createdAt).getFullYear() +
@@ -90,21 +153,76 @@
             )
             : ''
     }}
+                                            </div>
+                                            <div>
+                                                <span
+                                                    class="text-yellow-400 text-sm hover:text-yellow-300 transition-all"
+                                                    v-html="rateToStar(review.rating)">
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <p>
+                                                    {{ review.text }}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span class="text-yellow-400 text-sm hover:text-yellow-300 transition-all"
-                                                v-html="rateToStar(review.rating)">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr v-if="product.data.personal_reviews">
+
+                            <div class="mt-3 flex flex-col w-full">
+                                <div class="px-3 py-1 rounded-xl border hover:shadow-lg flex flex-col my-4"
+                                    v-for="review in product.data.showed_reviews">
+                                    <div class="w-full flex justify-start">
+                                        <div class="min-w-[3.5rem]">
+                                            <span>
+                                                <img v-if="!!review.user.photo"
+                                                    :src="`${API_URL}/public/images/profiles/user/${review.user.photo}`"
+                                                    class="opacity-85 object-cover w-8 h-8 bg-gray-300 hover:bg-gray-400 rounded-full"
+                                                    alt="profile">
+                                                <img v-else src="/images/person.png"
+                                                    class="opacity-85 object-cover w-8 h-8 bg-gray-300 hover:bg-gray-400 rounded-full"
+                                                    alt="profile">
                                             </span>
                                         </div>
                                         <div>
-                                            <p>
-                                                {{ review.text }}
-                                            </p>
+                                            <div class="overflow-auto">
+                                                <h1 class="font-medium text-gray-800 overflow-hidden">
+                                                    {{ review.user.firstname }}
+                                                    {{ review.user.lastname }}
+                                                </h1>
+                                            </div>
+                                            <div class="text-sm text-slate-700">
+                                                {{
+        !!review.createdAt ?
+            (
+                new Date(review.createdAt).getFullYear() +
+                '-' +
+                (new Date(review.createdAt).getMonth() + 1) +
+                '-' +
+                new Date(review.createdAt).getDate()
+            )
+            : ''
+                                                }}
+                                            </div>
+                                            <div>
+                                                <span
+                                                    class="text-yellow-400 text-sm hover:text-yellow-300 transition-all"
+                                                    v-html="rateToStar(review.rating)">
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <p>
+                                                    {{ review.text }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="hidden md:block border p-4 mt-5 mb-auto rounded-xl shadow-lg">
@@ -124,7 +242,9 @@
                             class="py-2.5 px-5 me-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">
                             -
                         </button>
-                        <input type="number" @change="changeQty" min="1" v-model="qty" name="qty" id="qty"
+                        <input type="number" @change="changeQty" min="1"
+                            :max="product.data?.stock ?? !!product.data?.stock ? product.data?.stock+'' : '0'"
+                            v-model="qty" name="qty" id="qty"
                             class="bg-gray-50 me-2 border w-20 border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
                         <button @click="incrementQty"
                             class="py-2.5 px-5 me-2 font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">
@@ -174,6 +294,13 @@
             </div>
         </div>
     </div>
+    <div class="flex-1 flex flex-col" v-else>
+        <div class="w-full xl:max-w-7xl xl:mx-auto flex-1 flex">
+            <div class="m-auto font-medium text-xl">
+                produk tidak ditemukan
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -181,6 +308,7 @@ import { mapState, mapActions } from "pinia";
 import { RouterLink } from "vue-router";
 import { useConfigStore } from "@/stores/_config";
 import { useUserProductStore } from "@/stores/userProduct";
+import Swal from "sweetalert2";
 
 export default {
     components: {
@@ -188,6 +316,8 @@ export default {
     },
     data(vm) {
         return {
+            rating: 0,
+            review_text: '',
             rateToStar(val: number) {
                 const starFill = '<i class="bi bi-star-fill"></i>';
                 const starHalf = '<i class="bi bi-star-half"></i>';
@@ -230,7 +360,7 @@ export default {
         await this.fetchProductBySlug(this.$route.params.slug ?? '')
     },
     methods: {
-        ...mapActions(useUserProductStore, ['fetchProductBySlug']),
+        ...mapActions(useUserProductStore, ['fetchProductBySlug', 'removePersonalReview', 'addReview']),
         incrementQty() {
             this.qty++;
         },
@@ -245,6 +375,50 @@ export default {
                 this.qty = 1;
             if (this.qty < 1)
                 this.qty = 1;
+        },
+        async performAddReview(product_id: any) {
+            if (this.rating > 5)
+                this.rating = 5;
+            if (this.rating < 1)
+                Swal.fire({
+                    icon: 'warning',
+                    text: 'Anda belum memasukkan rating'
+                });
+            else {
+                const data = {
+                    rating: this.rating,
+                    text: this.review_text,
+                    product_id
+                };
+                await this.addReview(data).then(async e => {
+                    if (e) {
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Ulasan berhasil ditambahkan'
+                        });
+                        await this.fetchProductBySlug(this.$route.params.slug ?? '');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Mohon maaf',
+                            text: 'Terjadi kesalahan'
+                        });
+                    }
+                });
+            }
+        },
+        async performRemovePersonalReview(id: any) {
+            await this.removePersonalReview(id).then(async e => {
+                if (e) {
+                    await this.fetchProductBySlug(this.$route.params.slug ?? '')
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Mohon maaf',
+                        text: 'Terjadi kesalahan'
+                    });
+                }
+            });
         },
         rupiah(number: number | bigint) {
             return new Intl.NumberFormat("id-ID", {
