@@ -20,7 +20,7 @@
             <span class="text-yellow-400 group-hover:text-yellow-300 transition-all" v-html="rateToStar(averageRating)">
             </span>
             <span class="text-gray-700 mx-2">
-                {{ averageRating }}
+                {{ averageRating.toFixed(2) }}
             </span>
         </div>
         <div class="px-2">
