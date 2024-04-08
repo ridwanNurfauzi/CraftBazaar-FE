@@ -54,13 +54,18 @@
                             Produk Langganan
                         </div>
                     </div>
-                    <div class="w-full overflow-x-auto flex flex-row">
+                    <div class="w-full overflow-x-auto flex flex-row justify-center">
                         <div v-if="loggedIn && productsFromSubscriptions">
                             <div class="mx-auto flex flex-row py-2" v-if="productsFromSubscriptions.data?.length > 0">
                                 <div class="mx-3" v-for="product in productsFromSubscriptions.data">
                                     <RouterLink :to="{ name: 'user.productBySlug', params: { slug: product.slug } }">
                                         <ProductCard :product="product"></ProductCard>
                                     </RouterLink>
+                                </div>
+                            </div>
+                            <div class="w-full overflow-x-auto " v-else>
+                                <div class="mx-auto">
+                                    <h1 class="font-semibold text-slate-700 text-xl">Anda Belum memiliki langganan</h1>
                                 </div>
                             </div>
                         </div>
