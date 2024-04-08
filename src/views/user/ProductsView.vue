@@ -17,12 +17,11 @@
                 </div>
             </div>
             <div class="flex flex-wrap justify-center m-4">
-                <RouterLink v-for="product in products?.data ?? []"
-                    :to="{ name: 'user.productBySlug', params: { slug: product.slug } }">
-                    <div class="m-3">
+                <div class="m-3" v-for="product in products?.data ?? []">
+                    <RouterLink :to="{ name: 'user.productBySlug', params: { slug: product.slug } }">
                         <ProductCard :product="product"></ProductCard>
-                    </div>
-                </RouterLink>
+                    </RouterLink>
+                </div>
             </div>
         </div>
     </div>

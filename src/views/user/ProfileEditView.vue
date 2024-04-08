@@ -16,7 +16,8 @@
                         </div>
                         <div class="flex -mt-8 pe-0">
                             <div class="ms-auto">
-                                <input type="file" name="photoF" id="photoF" @change="changePhoto" hidden>
+                                <input type="file" name="photoF" id="photoF" @change="changePhoto" accept="image/*"
+                                    hidden>
                                 <button type="button" title="Hapus foto" @click="removePhoto"
                                     class="py-2 px-3 me-1 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:ring-gray-200">
                                     <i class="bi bi-trash"></i>
