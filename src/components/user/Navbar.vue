@@ -1,9 +1,10 @@
 <template>
     <div>
-        <nav class="bg-white border-gray-200 dark:bg-gray-900">
+        <nav class="bg-white border-gray-200">
             <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl py-4 px-2">
-                <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-                    <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">CraftBazaar</span>
+                <a href="#" class="flex items-center space-x-0 rtl:space-x-reverse">
+                    <img src="/favicon.ico" class="h-8 me-1" alt="CraftBazaar" />
+                    <span class="self-center text-xl font-semibold whitespace-nowrap">CraftBazaar</span>
                 </a>
                 <div class="flex items-center space-x-1 rtl:space-x-reverse" v-if="loggedIn">
                     <button id="dropdownProfileButton" data-dropdown-toggle="profileDropdown"
@@ -16,13 +17,17 @@
 
                     <!-- Dropdown menu -->
                     <div id="profileDropdown"
-                        class="z-10 hidden border bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                            aria-labelledby="dropdownProfileButton">
+                        class="z-10 hidden border bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownProfileButton">
                             <li>
                                 <h1
-                                    class="overflow-hidden text-ellipsis text-nowrap font-semibold my-2 mx-4 text-gray-900">
+                                    class="overflow-hidden text-ellipsis text-nowrap font-normal mb-1 mx-4 text-gray-900">
                                     {{ userData.firstname }}
+                                    {{ userData.lastname }}
+                                </h1>
+                                <h1
+                                    class="overflow-hidden text-ellipsis text-nowrap font-semibold mb-1 mx-4 text-gray-900">
+                                    {{ userData.email }}
                                 </h1>
                             </li>
                             <hr>
@@ -66,9 +71,11 @@
                                 </RouterLink>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">
-                                    Sebagai penjual
-                                </a>
+                                <RouterLink :to="{ name: 'seller.login' }">
+                                    <span class="block px-4 py-2 hover:bg-gray-100">
+                                        Sebagai penjual
+                                    </span>
+                                </RouterLink>
                             </li>
                         </ul>
                     </div>
@@ -96,9 +103,11 @@
                                 </RouterLink>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">
-                                    Sebagai penjual
-                                </a>
+                                <RouterLink :to="{ name: 'seller.register' }">
+                                    <span class="block px-4 py-2 hover:bg-gray-100">
+                                        Sebagai penjual
+                                    </span>
+                                </RouterLink>
                             </li>
                         </ul>
                     </div>
@@ -114,17 +123,17 @@
                         class="mx-auto px-4 overflow-x-auto flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
                         <li>
                             <RouterLink :to="{ name: 'user.home' }">
-                                <span class="text-gray-900 dark:text-white hover:underline">Beranda</span>
+                                <span class="text-gray-900 hover:underline">Beranda</span>
                             </RouterLink>
                         </li>
                         <li>
                             <RouterLink :to="{ name: 'user.products' }">
-                                <span class="text-gray-900 dark:text-white hover:underline">Produk</span>
+                                <span class="text-gray-900 hover:underline">Produk</span>
                             </RouterLink>
                         </li>
                         <li>
                             <RouterLink :to="{ name: 'user.categories' }">
-                                <span class="text-gray-900 dark:text-white hover:underline">kategori</span>
+                                <span class="text-gray-900 hover:underline">kategori</span>
                             </RouterLink>
                         </li>
                     </ul>

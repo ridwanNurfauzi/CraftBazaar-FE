@@ -35,9 +35,11 @@
                                         </RouterLink>
                                     </li>
                                     <li>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">
-                                            Sebagai penjual
-                                        </a>
+                                        <RouterLink :to="{ name: 'seller.login' }">
+                                            <span class="block px-4 py-2 hover:bg-gray-100">
+                                                Sebagai penjual
+                                            </span>
+                                        </RouterLink>
                                     </li>
                                 </ul>
                             </div>

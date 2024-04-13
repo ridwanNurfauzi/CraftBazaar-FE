@@ -29,7 +29,38 @@ const sellerRoutes: RouteRecordRaw = {
     {
       path: '',
       name: 'seller.home',
-      component: () => import('@/views/seller/HomeView.vue')
+      component: () => import('@/views/seller/HomeView.vue'),
+      beforeEnter: middleware.checkSellerAuth
+    },
+    {
+      path: 'profile',
+      name: 'seller.profile',
+      component: () => import('@/views/seller/ProfileView.vue'),
+      beforeEnter: middleware.checkSellerAuth
+    },
+    {
+      path: 'profile/edit',
+      name: 'seller.profileEdit',
+      component: () => import('@/views/seller/ProfileEditView.vue'),
+      beforeEnter: middleware.checkSellerAuth
+    },
+    {
+      path: 'login',
+      name: 'seller.login',
+      component: () => import('@/views/seller/LoginView.vue'),
+      meta: {
+        hideSidebar: true
+      },
+      beforeEnter: middleware.sellerAuthenticated
+    },
+    {
+      path: 'register',
+      name: 'seller.register',
+      component: () => import('@/views/seller/RegisterView.vue'),
+      meta: {
+        hideSidebar: true
+      },
+      beforeEnter: middleware.sellerAuthenticated
     }
   ]
 };
@@ -98,7 +129,8 @@ const userRoutes: RouteRecordRaw = {
       meta: {
         hideNavbar: true,
         hideFooter: true
-      }
+      },
+      beforeEnter: middleware.userAuthenticated
     },
     {
       path: 'register',
@@ -107,7 +139,8 @@ const userRoutes: RouteRecordRaw = {
       meta: {
         hideNavbar: true,
         hideFooter: true
-      }
+      },
+      beforeEnter: middleware.userAuthenticated
     },
   ]
 };

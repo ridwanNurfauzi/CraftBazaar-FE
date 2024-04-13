@@ -5,7 +5,14 @@
     </div>
 
     <div class="flex-1 flex flex-col" v-else-if="getRole == 'seller'">
-      <RouterView></RouterView>
+      <div class="flex-1 flex flex-col" v-if="$route.meta.hideSidebar">
+        <RouterView></RouterView>
+      </div>
+      <SellerSidebar v-else>
+        <template #default>
+          <RouterView></RouterView>
+        </template>
+      </SellerSidebar>
     </div>
 
     <div class="flex-1 flex flex-col" v-else-if="getRole == 'user'">
@@ -38,12 +45,14 @@
 <script lang="ts">
 import { RouterView } from 'vue-router'
 import UserNavbar from "@/components/user/Navbar.vue";
+import SellerSidebar from "@/components/seller/Sidebar.vue";
 import FooterComponent from "@/components/user/FooterComponent.vue";
 
 export default {
   components: {
     RouterView,
     UserNavbar,
+    SellerSidebar,
     FooterComponent
   },
   computed: {
