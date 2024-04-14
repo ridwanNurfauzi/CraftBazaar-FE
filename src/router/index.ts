@@ -45,6 +45,32 @@ const sellerRoutes: RouteRecordRaw = {
       beforeEnter: middleware.checkSellerAuth
     },
     {
+      path: 'products',
+      beforeEnter: middleware.checkSellerAuth,
+      children: [
+        {
+          path: '',
+          name: 'seller.products',
+          component: () => import('@/views/seller/products/IndexView.vue')
+        },
+        {
+          path: 'add',
+          name: 'seller.productsAdd',
+          component: () => import('@/views/seller/products/AddView.vue')
+        },
+        {
+          path: ':id',
+          name: 'seller.productsShow',
+          component: () => import('@/views/seller/products/ShowView.vue')
+        },
+        {
+          path: 'edit/:id',
+          name: 'seller.productsEdit',
+          component: () => import('@/views/seller/products/EditView.vue')
+        }
+      ]
+    },
+    {
       path: 'login',
       name: 'seller.login',
       component: () => import('@/views/seller/LoginView.vue'),

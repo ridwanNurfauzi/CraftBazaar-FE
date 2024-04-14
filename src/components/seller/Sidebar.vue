@@ -83,17 +83,25 @@
                         </RouterLink>
                     </li>
                     <li>
-                        <a href="#"
-                            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group transition-all">
+                        <RouterLink :to="{ name: 'seller.products' }"
+                            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group transition-all"
+                            :class="{
+        'bg-gray-200': [
+            'seller.products',
+            'seller.productsAdd',
+            'seller.productsEdit',
+            'seller.productsShow'
+        ].includes($route.name as string)
+    }">
                             <i
                                 class="bi bi-handbag-fill text-xl text-gray-500 transition duration-75 group-hover:text-gray-900"></i>
                             <span class="flex-1 ms-3 whitespace-nowrap">Produk</span>
-                        </a>
+                        </RouterLink>
                     </li>
                     <li>
                         <RouterLink :to="{ name: 'seller.profile' }"
                             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group transition-all"
-                            :class="{ 'bg-gray-200': $route.name == 'seller.profile' }">
+                            :class="{ 'bg-gray-200': ['seller.profile', 'seller.profileEdit'].includes($route.name as string) }">
                             <i
                                 class="bi bi-person-fill text-xl text-gray-500 transition duration-75 group-hover:text-gray-900"></i>
                             <span class="flex-1 ms-3 whitespace-nowrap">Profil</span>
