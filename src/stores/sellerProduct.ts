@@ -40,11 +40,11 @@ export const useSellerProductStore = defineStore('seller_product', {
 
                 if (res.data.success) {
                     this.$state.product = res.data;
-                    return true;
+                    return res.data;
                 }
                 else {
                     this.$state.product = null;
-                    return false;
+                    return res.data;
                 }
             } catch (error) {
                 console.log(error);
@@ -72,6 +72,85 @@ export const useSellerProductStore = defineStore('seller_product', {
                 else {
                     this.$state.products = [];
                     return false;
+                }
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
+        },
+        async addProducts(data: any) {
+            try {
+                let config: AxiosRequestConfig = {};
+                if (window.$cookies.isKey('sellerToken')) {
+                    config.headers = {
+                        "Authorization": `Bearer ${window.$cookies.get('sellerToken')}`,
+                        "Content-Type": 'multipart/form-data'
+                    }
+                }
+
+                const res = await axios.post(
+                    `${this._config.API_URL}/seller/products`,
+                    data,
+                    config
+                );
+
+                if (res.data.success) {
+                    return res.data;
+                }
+                else {
+                    return res.data;
+                }
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
+        },
+        async updateProduct(data: any, id: any) {
+            try {
+                let config: AxiosRequestConfig = {};
+                if (window.$cookies.isKey('sellerToken')) {
+                    config.headers = {
+                        "Authorization": `Bearer ${window.$cookies.get('sellerToken')}`,
+                        "Content-Type": 'multipart/form-data'
+                    }
+                }
+
+                const res = await axios.put(
+                    `${this._config.API_URL}/seller/products/${id}`,
+                    data,
+                    config
+                );
+
+                if (res.data.success) {
+                    return res.data;
+                }
+                else {
+                    return res.data;
+                }
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
+        },
+        async deleteProducts(id: any) {
+            try {
+                let config: AxiosRequestConfig = {};
+                if (window.$cookies.isKey('sellerToken')) {
+                    config.headers = {
+                        "Authorization": `Bearer ${window.$cookies.get('sellerToken')}`
+                    }
+                }
+
+                const res = await axios.delete(
+                    `${this._config.API_URL}/seller/products/${id}`,
+                    config
+                );
+
+                if (res.data.success) {
+                    return res.data;
+                }
+                else {
+                    return res.data;
                 }
             } catch (error) {
                 console.log(error);
