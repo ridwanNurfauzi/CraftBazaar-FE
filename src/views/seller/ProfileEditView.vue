@@ -108,7 +108,6 @@ import { RouterLink } from "vue-router";
 import { useConfigStore } from "@/stores/_config";
 import { useSellerAuthStore } from "@/stores/sellerAuth";
 import Swal from "sweetalert2";
-import mime from 'mime-types';
 
 export default {
     components: {
@@ -204,7 +203,7 @@ export default {
                 await fetch(`${this.API_URL}/public/images/profiles/seller/${this.sellerData.photo}`)
                     .then(x => x.blob())
                     .then(y => {
-                        this.photoFile = new File([y], 'photo.' + mime.extension(y.type));
+                        this.photoFile = new File([y], `${this.sellerData.photo}`);
                         let url = URL.createObjectURL(y)
                         this.photo = url;
                     });
