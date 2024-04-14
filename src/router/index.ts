@@ -135,15 +135,6 @@ const userRoutes: RouteRecordRaw = {
       component: () => import('@/views/user/ProductByCategory.vue')
     },
     {
-      path: 'test',
-      name: 'user.test',
-      component: () => import('@/components/user/ProductCard.vue'),
-      meta: {
-        hideNavbar: true,
-        hideFooter: true
-      }
-    },
-    {
       path: 'categories',
       name: 'user.categories',
       component: () => import('@/views/user/CategoriesView.vue')
