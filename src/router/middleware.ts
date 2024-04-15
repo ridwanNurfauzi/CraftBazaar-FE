@@ -28,7 +28,6 @@ const userAuthenticated: NavigationGuardWithThis<undefined> =
             next({ name: 'user.home' });
         else
             next();
-
     };
 
 const checkSellerAuth: NavigationGuardWithThis<undefined> =
@@ -58,12 +57,36 @@ const sellerAuthenticated: NavigationGuardWithThis<undefined> =
             next({ name: 'seller.home' });
         else
             next();
+    };
 
+const checkAdminAuth: NavigationGuardWithThis<undefined> =
+    async (to, from, next) => {
+        const adminAuthStore = await import("@/stores/adminAuth");
+        const adminAuth = adminAuthStore.useAdminAuthStore();
+        const adminLoggedIn = await adminAuth.getProfile();
+
+        if (adminLoggedIn)
+            next();
+        else
+            next({ name: 'admin.login' });
+    };
+const adminAuthenticated: NavigationGuardWithThis<undefined> =
+    async (to, from, next) => {
+        const adminAuthStore = await import("@/stores/adminAuth");
+        const adminAuth = adminAuthStore.useAdminAuthStore();
+        const adminLoggedIn = await adminAuth.getProfile();
+
+        if (adminLoggedIn)
+            next({ name: 'admin.home' });
+        else
+            next();
     };
 
 export {
     checkUserAuth,
     userAuthenticated,
     checkSellerAuth,
-    sellerAuthenticated
+    sellerAuthenticated,
+    checkAdminAuth,
+    adminAuthenticated
 };
