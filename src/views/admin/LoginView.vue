@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-1 flex flex-col bg-[url('/images/bg1.jpg')] bg-cover bg-center">
+    <div class="flex-1 flex flex-col bg-[url('/images/bg-admin-auth.jpg')] bg-cover bg-center">
         <div
             class="m-0 my-auto sm:mx-auto sm:w-[540px] flex-grow sm:flex-grow-0 flex flex-col bg-gray-50 bg-opacity-[.65] p-8 sm:rounded-xl shadow-lg backdrop-blur-sm">
             <div class="flex flex-col my-auto">
@@ -26,11 +26,6 @@
                                 {{ validation.password }}
                             </p>
                         </div>
-                        <div class="my-5">
-                            <RouterLink :to="{ name: 'user.register' }">
-                                <span class="text-blue-700 hover:underline">Belum punya akun?</span>
-                            </RouterLink>
-                        </div>
                         <div class="my-5 flex flex-row">
                             <div class="ms-auto">
                                 <input type="reset" value="Reset"
@@ -49,7 +44,7 @@
 <script lang="ts">
 import { mapActions } from "pinia";
 import { RouterLink } from "vue-router";
-import { useUserAuthStore } from "@/stores/userAuth";
+import { useAdminAuthStore } from "@/stores/adminAuth";
 
 export default {
     components: {
@@ -64,7 +59,7 @@ export default {
         };
     },
     methods: {
-        ...mapActions(useUserAuthStore, ['login']),
+        ...mapActions(useAdminAuthStore, ['login']),
 
         async performLogin() {
             const fData = new FormData(document.forms[0]);
@@ -72,10 +67,10 @@ export default {
 
             let validation = this.validation;
 
-                Object.keys(this.validation).forEach(e => {
-                    this.validation[e as keyof typeof validation] = '';
-                });
-            
+            Object.keys(this.validation).forEach(e => {
+                this.validation[e as keyof typeof validation] = '';
+            });
+
             if ((!data?.success) && data?.vError) {
                 let vResult = data?.vResult?.errors;
 
@@ -87,8 +82,8 @@ export default {
                 });
             }
             else if (data?.success) {
-                this.$cookies.set('userToken', data?.token);
-                this.$router.push({ name: 'user.home' });
+                this.$cookies.set('adminToken', data?.token);
+                this.$router.push({ name: 'admin.home' });
             }
         }
     }

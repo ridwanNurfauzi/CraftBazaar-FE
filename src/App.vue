@@ -1,7 +1,14 @@
 <template>
   <div class="min-h-screen w-full flex flex-col">
     <div class="flex-1 flex flex-col" v-if="getRole == 'admin'">
-      <RouterView></RouterView>
+      <div class="flex-1 flex flex-col" v-if="$route.meta.hideSidebar">
+        <RouterView></RouterView>
+      </div>
+      <AdminSidebar v-else>
+        <template #default>
+          <RouterView></RouterView>
+        </template>
+      </AdminSidebar>
     </div>
 
     <div class="flex-1 flex flex-col" v-else-if="getRole == 'seller'">
@@ -46,6 +53,7 @@
 import { RouterView } from 'vue-router'
 import UserNavbar from "@/components/user/Navbar.vue";
 import SellerSidebar from "@/components/seller/Sidebar.vue";
+import AdminSidebar from "@/components/admin/Sidebar.vue";
 import FooterComponent from "@/components/user/FooterComponent.vue";
 
 export default {
@@ -53,6 +61,7 @@ export default {
     RouterView,
     UserNavbar,
     SellerSidebar,
+    AdminSidebar,
     FooterComponent
   },
   computed: {
