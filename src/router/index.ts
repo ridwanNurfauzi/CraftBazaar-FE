@@ -10,12 +10,81 @@ const adminRoutes: RouteRecordRaw = {
     {
       path: '',
       name: 'admin.home',
+      beforeEnter: middleware.checkAdminAuth,
       component: () => import('@/views/admin/HomeView.vue')
     },
     {
+      path: 'profile',
+      name: 'admin.profile',
+      component: () => import('@/views/admin/ProfileView.vue'),
+      beforeEnter: middleware.checkAdminAuth
+    },
+    {
+      path: 'profile/edit',
+      name: 'admin.profileEdit',
+      component: () => import('@/views/admin/ProfileEditView.vue'),
+      beforeEnter: middleware.checkAdminAuth
+    },
+    {
+      path: 'categories',
+      beforeEnter: middleware.checkAdminAuth,
+      children: [
+        {
+          path: '',
+          name: 'admin.categories',
+          component: () => import('@/views/admin/categories/IndexView.vue')
+        },
+        {
+          path: 'add',
+          name: 'admin.categoriesAdd',
+          component: () => import('@/views/admin/categories/AddView.vue')
+        },
+        {
+          path: ':id',
+          name: 'admin.categoriesShow',
+          component: () => import('@/views/admin/categories/ShowView.vue')
+        },
+        {
+          path: 'edit/:id',
+          name: 'admin.categoriesEdit',
+          component: () => import('@/views/admin/categories/EditView.vue')
+        }
+      ]
+    },
+    {
       path: 'admins',
-      name: 'admin.admins',
-      component: () => import('@/views/admin/HomeView.vue'),
+      beforeEnter: middleware.checkAdminAuth,
+      children: [
+        {
+          path: '',
+          name: 'admin.admins',
+          component: () => import('@/views/admin/admins/IndexView.vue')
+        },
+        {
+          path: 'add',
+          name: 'admin.adminsAdd',
+          component: () => import('@/views/admin/admins/AddView.vue')
+        },
+        {
+          path: ':id',
+          name: 'admin.adminsShow',
+          component: () => import('@/views/admin/admins/ShowView.vue')
+        },
+        {
+          path: 'edit/:id',
+          name: 'admin.adminsEdit',
+          component: () => import('@/views/admin/admins/EditView.vue')
+        }
+      ]
+    },
+    {
+      path: 'login',
+      name: 'admin.login',
+      component: () => import('@/views/admin/LoginView.vue'),
+      meta: {
+        hideSidebar: true
+      },
+      beforeEnter: middleware.adminAuthenticated
     }
   ]
 };
