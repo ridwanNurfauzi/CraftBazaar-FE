@@ -119,7 +119,7 @@
             </div>
         </aside>
 
-        <div class="p-4 sm:ml-64 h-screen flex flex-col">
+        <div class="p-4 sm:ml-64 flex flex-col">
             <slot></slot>
         </div>
     </div>
