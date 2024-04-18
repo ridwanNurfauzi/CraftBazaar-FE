@@ -209,6 +209,12 @@ const userRoutes: RouteRecordRaw = {
       component: () => import('@/views/user/CategoriesView.vue')
     },
     {
+      path: 'cart',
+      name: 'user.cart',
+      component: () => import('@/views/user/CartView.vue'),
+      beforeEnter: middleware.checkUserAuth
+    },
+    {
       path: 'login',
       name: 'user.login',
       component: () => import('@/views/user/LoginView.vue'),

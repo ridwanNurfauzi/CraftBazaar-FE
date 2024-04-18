@@ -256,7 +256,7 @@
                         </button>
                     </div>
                     <div class="flex flex-col">
-                        <button
+                        <button @click="performAddProductToCart({product_id: product.data.id, qty})"
                             class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">
                             Tambah ke keranjang
                         </button>
@@ -289,7 +289,7 @@
                         </button>
                     </div>
                     <div class="flex flex-col">
-                        <button
+                        <button @click="performAddProductToCart({product_id: product.data.id, qty})"
                             class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mx-2 mb-2">
                             Tambah ke keranjang
                         </button>
@@ -312,6 +312,7 @@ import { mapState, mapActions } from "pinia";
 import { RouterLink } from "vue-router";
 import { useConfigStore } from "@/stores/_config";
 import { useUserProductStore } from "@/stores/userProduct";
+import { useUserCartStore } from "@/stores/userCart";
 import Swal from "sweetalert2";
 
 export default {
@@ -365,8 +366,23 @@ export default {
     },
     methods: {
         ...mapActions(useUserProductStore, ['fetchProductBySlug', 'removePersonalReview', 'addReview']),
+        ...mapActions(useUserCartStore, ['addProductToCart', 'fetchCartProduct']),
+        async performAddProductToCart(data: { product_id: any, qty: any }){
+            const response = await this.addProductToCart(data);
+            if (!response) {
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Mohon maaf',
+                    text: 'Terjadi kesalahan'
+                });
+            }
+            await this.fetchCartProduct();
+        },
         incrementQty() {
-            this.qty++;
+            if (this.product.data) {
+                if (this.product.data.stock > this.qty)
+                    this.qty++;
+            }
         },
         decrementQty() {
             this.qty--;

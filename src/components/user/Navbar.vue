@@ -7,6 +7,15 @@
                     <span class="self-center text-xl font-semibold whitespace-nowrap">CraftBazaar</span>
                 </a>
                 <div class="flex items-center space-x-1 rtl:space-x-reverse" v-if="loggedIn">
+                    <button @click="$router.push({ name: 'user.cart' })"
+                        class="py-.5 px-2 rounded-lg me-5 hover:bg-gray-300 group transition-all"
+                        :class="{ 'bg-gray-300': ($route.name == 'user.cart') }">
+                        <div v-if="cartProducts && cartProducts.data && (cartProducts.data ?? []).length > 0"
+                            class="sticky -mb-4 -mt-1 bg-yellow-400 bg-opacity-75 rounded-lg px-1 ms-3 -me-5 text-sm">
+                            {{ (cartProducts.data ?? []).length }}
+                        </div>
+                        <i class="bi bi-cart-fill text-gray-700 text-lg"></i>
+                    </button>
                     <button id="dropdownProfileButton" data-dropdown-toggle="profileDropdown"
                         class="text-white bg-gray-300 hover:bg-gray-400 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-full text-sm text-center inline-flex items-center overflow-hidden"
                         type="button">
@@ -150,6 +159,7 @@ import { initFlowbite, initDropdowns } from "flowbite"
 import { mapState, mapActions } from "pinia";
 import { useUserAuthStore } from '@/stores/userAuth';
 import { useConfigStore } from "@/stores/_config";
+import { useUserCartStore } from '@/stores/userCart';
 
 export default {
     components: {
@@ -157,6 +167,7 @@ export default {
     },
     methods: {
         ...mapActions(useUserAuthStore, ['getProfile', 'logout']),
+        ...mapActions(useUserCartStore, ['fetchCartProduct']),
         async performLogout() {
             const { isConfirmed: confirmed } = await Swal.fire({
                 title: 'Proses logout',
@@ -189,11 +200,13 @@ export default {
     },
     async mounted() {
         await this.getProfile();
+        await this.fetchCartProduct();
         initFlowbite();
         initDropdowns();
     },
     computed: {
         ...mapState(useUserAuthStore, ['loggedIn', 'userData']),
+        ...mapState(useUserCartStore, ['cartProducts']),
         ...mapState(useConfigStore, ['API_URL']),
     }
 }
