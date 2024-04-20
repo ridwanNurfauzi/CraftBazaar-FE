@@ -208,7 +208,7 @@
                 new Date(review.createdAt).getDate()
             )
             : ''
-                                                }}
+    }}
                                             </div>
                                             <div>
                                                 <span
@@ -313,6 +313,7 @@ import { RouterLink } from "vue-router";
 import { useConfigStore } from "@/stores/_config";
 import { useUserProductStore } from "@/stores/userProduct";
 import { useUserCartStore } from "@/stores/userCart";
+import { useUserAuthStore } from "@/stores/userAuth";
 import Swal from "sweetalert2";
 
 export default {
@@ -346,6 +347,7 @@ export default {
     },
     computed: {
         ...mapState(useUserProductStore, ['product']),
+        ...mapState(useUserAuthStore, ['loggedIn']),
         ...mapState(useConfigStore, ['API_URL']),
 
         averageRating() {
@@ -367,16 +369,26 @@ export default {
     methods: {
         ...mapActions(useUserProductStore, ['fetchProductBySlug', 'removePersonalReview', 'addReview']),
         ...mapActions(useUserCartStore, ['addProductToCart', 'fetchCartProduct']),
-        async performAddProductToCart(data: { product_id: any, qty: any }){
-            const response = await this.addProductToCart(data);
-            if (!response) {
-                await Swal.fire({
-                    icon: 'error',
-                    title: 'Mohon maaf',
-                    text: 'Terjadi kesalahan'
+        async performAddProductToCart(data: { product_id: any, qty: any }) {
+            if (this.loggedIn) {
+                const response = await this.addProductToCart(data);
+                if (!response) {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Mohon maaf',
+                        text: 'Terjadi kesalahan'
+                    });
+                }
+                await this.fetchCartProduct();
+            } else {
+                Swal.fire({
+                    title: 'Mohon maaf!',
+                    text: 'Anda harus login terlebih dahulu.',
+                    icon: 'warning'
                 });
+                this.$router.push({ name: 'user.login' });
             }
-            await this.fetchCartProduct();
+
         },
         incrementQty() {
             if (this.product.data) {
