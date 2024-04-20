@@ -1,6 +1,10 @@
 <template>
-    <div
-        class="w-80 h-32 border grid grid-cols-11 bg-gray-50 rounded-lg group overflow-hidden transition-all hover:shadow-md">
+    <div class="w-80 h-32 grid grid-cols-11 bg-gray-50 rounded-lg group overflow-hidden transition-all hover:shadow-md"
+        :class="{
+            'border': !product.cart.selected,
+            'border-2': product.cart.selected,
+            'border-blue-400': product.cart.selected,
+        }">
         <div class="col-span-1 flex flex-col justify-center">
             <input type="checkbox" class="mx-auto" :name="`${product.name}_select`" :id="`${product.name}_select`"
                 :checked="product.cart.selected" @change="performSelectCartProduct(product.id)">
@@ -8,8 +12,7 @@
         <div class="col-span-4 overflow-hidden">
             <RouterLink :to="{ name: 'user.productBySlug', params: { slug: product.slug } }">
                 <img :src="`${API_URL}/public/images/products/${product.product_images[0].filename}`"
-                    class="w-full h-full object-cover object-center group-hover:opacity-75 group-hover:scale-125 transition-all"
-                    alt="">
+                    class="w-full h-full object-cover object-center group-hover:opacity-75 transition-all" alt="">
             </RouterLink>
         </div>
         <div class="col-span-5 flex flex-col justify-evenly">
