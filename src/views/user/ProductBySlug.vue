@@ -20,9 +20,20 @@
                         {{ product.data?.name ?? '' }}
                     </h1>
                     <RouterLink :to="{ name: 'user.sellerByCode', params: { code: product.data?.seller?.code ?? '' } }">
-                        <h1 class="text-slate-700 mb-4 hover:underline">
-                            {{ product.data?.seller?.name ?? '' }}
-                        </h1>
+                        <div class="text-slate-700 mb-4 hover:underline flex group">
+                            <span class="me-2">
+                                <img :src="`${API_URL}/public/images/profiles/seller/${product.data.seller.photo}`"
+                                    v-if="!!product.data.seller.photo"
+                                    class="w-8 h-8 object-cover object-center rounded-full hover:shadow border transition-all group-hover:opacity-75 group-hover:shadow-lg"
+                                    alt="">
+                                <img src="/images/person.png" v-else
+                                    class="w-8 h-8 object-cover object-center rounded-full hover:shadow border transition-all group-hover:opacity-75 group-hover:shadow-lg bg-slate-300"
+                                    alt="">
+                            </span>
+                            <span class="my-auto">
+                                {{ product.data?.seller?.name ?? '' }}
+                            </span>
+                        </div>
                     </RouterLink>
                     <div class="my-3 flex" v-if="product.data?.categories.length > 0">
                         <div class="me-4">
@@ -388,7 +399,6 @@ export default {
                 });
                 this.$router.push({ name: 'user.login' });
             }
-
         },
         incrementQty() {
             if (this.product.data) {
