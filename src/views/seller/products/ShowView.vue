@@ -172,7 +172,7 @@
                 (new Date(review.createdAt).getMonth() + 1) +
                 '-' +
                 new Date(review.createdAt).getDate()
-            )
+                                        )
                                         : ''
                                         }}
                                     </div>
@@ -232,12 +232,12 @@ export default {
             });
             if (response.isConfirmed) {
                 const data = await this.deleteProducts(id);
-                if (data.success){
+                if (data.success) {
                     await Swal.fire({
                         icon: 'success',
                         text: 'Berhasil menghapus produk.'
                     });
-                    this.$router.push({name: 'seller.products'});
+                    this.$router.push({ name: 'seller.products' });
                 }
                 else
                     await Swal.fire({
