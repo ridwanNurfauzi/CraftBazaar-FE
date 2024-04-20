@@ -199,8 +199,11 @@ export default {
         }
     },
     async mounted() {
-        await this.getProfile();
-        await this.fetchCartProduct();
+        await this.getProfile()
+            .then(async e => {
+                if (e) await this.fetchCartProduct();
+            });
+
         initFlowbite();
         initDropdowns();
     },
