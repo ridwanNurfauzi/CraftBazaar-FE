@@ -3,7 +3,7 @@
         class="w-40 h-72 border bg-gray-50 rounded-lg group overflow-hidden transition-all flex flex-col hover:shadow-md">
         <div class="w-40 h-40 transition-all overflow-hidden">
             <img :src="`${API_URL}/public/images/products/${product?.product_images[0]?.filename ?? '/images/image.png'}`"
-                class="w-full h-full bg-gray-200 object-cover group-hover:scale-[1.2] group-hover:op acity-80 transition-all"
+                class="w-full h-full bg-gray-200 object-cover group-hover:scale-[1.2] group-hover:opacity-80 transition-all"
                 alt="img">
         </div>
         <div class="px-2">
