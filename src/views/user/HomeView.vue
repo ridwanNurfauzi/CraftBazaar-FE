@@ -122,6 +122,25 @@
                 <div class="w-full my-2">
                     <div class="font-semibold my-2 flex flex-row">
                         <div>
+                            Temukan Pelaku Kerajinan
+                        </div>
+                    </div>
+                    <div class="w-full overflow-x-auto flex flex-row">
+                        <div class="mx-auto flex flex-row my-2">
+                            <div class="mx-3" v-if="sellers && sellers.data" v-for="seller in sellers.data">
+                                <RouterLink :to="{ name: 'user.sellerByCode', params: { code: seller.code } }">
+                                    <SellerCard :seller="seller"></SellerCard>
+                                </RouterLink>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full bg-gray-50 p-4">
+                <div class="w-full my-2">
+                    <div class="font-semibold my-2 flex flex-row">
+                        <div>
                             Kategori
                         </div>
                     </div>
@@ -147,23 +166,28 @@ import { RouterLink } from "vue-router";
 import { useConfigStore } from "@/stores/_config";
 import ProductCard from "@/components/user/ProductCard.vue";
 import CategoryCard from "@/components/user/CategoryCard.vue";
+import SellerCard from "@/components/user/SellerCard.vue";
 import { useUserAuthStore } from "@/stores/userAuth";
 import { useUserProductStore } from "@/stores/userProduct";
+import { useUserSellerStore } from "@/stores/userSeller";
 import { useUserCategoryStore } from "@/stores/userCategory";
 
 export default {
     components: {
         ProductCard,
         CategoryCard,
+        SellerCard,
         RouterLink
     },
     methods: {
         ...mapActions(useUserProductStore, ['fetchProducts', 'fetchLatestProducts', 'fetchEarliestProducts', 'fetchPopularProducts', 'fetchProductsFromSubscriptions']),
         ...mapActions(useUserCategoryStore, ['fetchCategories']),
+        ...mapActions(useUserSellerStore, ['fetchSellers']),
         ...mapActions(useUserAuthStore, ['getProfile'])
     },
     computed: {
         ...mapState(useUserProductStore, ['products', 'latestProducts', 'earliestProducts', 'popularProducts', 'productsFromSubscriptions']),
+        ...mapState(useUserSellerStore, ['sellers']),
         ...mapState(useUserCategoryStore, ['categories']),
         ...mapState(useUserAuthStore, ['userData', 'loggedIn']),
 
@@ -179,6 +203,7 @@ export default {
         await this.fetchEarliestProducts();
         await this.fetchPopularProducts();
         await this.fetchCategories();
+        await this.fetchSellers();
         if (!!this.$cookies.get('userToken'))
             await this.fetchProductsFromSubscriptions();
     }
