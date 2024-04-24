@@ -56,7 +56,7 @@
                             Produk Langganan
                         </div>
                     </div>
-                    <div class="w-full overflow-x-auto flex flex-row justify-center">
+                    <div class="w-full overflow-x-auto flex flex-row">
                         <div v-if="loggedIn && productsFromSubscriptions">
                             <div class="mx-auto flex flex-row py-2" v-if="productsFromSubscriptions.data?.length > 0">
                                 <div class="mx-3" v-for="product in productsFromSubscriptions.data">
