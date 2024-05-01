@@ -102,7 +102,7 @@ export default {
                 });
             const response = await Swal.fire({
                 icon: 'question',
-                text: 'Apakah anda yakin ingin menghapus kategori ini.',
+                text: 'Apakah anda yakin ingin menghapus akun ini.',
                 showCancelButton: true,
                 cancelButtonText: 'Tidak',
                 confirmButtonText: 'Ya',
@@ -113,7 +113,7 @@ export default {
                 if (data.success)
                     await Swal.fire({
                         icon: 'success',
-                        text: 'Berhasil menghapus kategori.'
+                        text: 'Berhasil menghapus akun.'
                     });
                 else
                     await Swal.fire({
